@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '../../../redux/modules/action/todoAction';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,6 +9,9 @@ import { TodosProsType } from '../../../interfaces/interface';
 const AddForm: FC = () => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+
+  const title_input = useRef<HTMLInputElement>(null);
+  const content_input = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
 
@@ -41,23 +44,24 @@ const AddForm: FC = () => {
     }
 
     // 제목과 내용이 모두 비었을 때 - 제목에 focus
-    else if (!title && !content) {
+    else if (!title && !content && title_input.current) {
       event.preventDefault();
-      // document.querySelector('#title').focus() ;
+      title_input.current.focus();
       alert('제목과 내용을 입력해주세요');
     }
 
     // 제목이 비었을 때 - 내용에 focus
-    else if (!title) {
+    else if (!title && title_input.current) {
       event.preventDefault();
-      // document.getElementById('title')as HTMLElement.focus() ;
+      title_input.current.focus();
       alert('제목을 입력해주세요');
     }
 
     // 내용이 비었을 때  - 제목에 focus
-    else if (!content) {
+    else if (!content && content_input.current) {
       event.preventDefault();
-      // document.getElementById('content').focus();
+      content_input.current.focus();
+
       alert('내용을 입력해주세요');
     }
   };
@@ -72,6 +76,8 @@ const AddForm: FC = () => {
             placeholder="제목을 입력해주세요."
             id="title"
             value={title}
+            ref={title_input}
+            // FIXME: error나는데 type 정의 어떻게..?
             // maxLength="20"
             onChange={onChangeHandler}
           />
@@ -80,6 +86,7 @@ const AddForm: FC = () => {
             placeholder="내용을 입력해주세요."
             id="content"
             value={content}
+            ref={content_input}
             // maxLength="50"
             onChange={onChangeHandler}
           />
