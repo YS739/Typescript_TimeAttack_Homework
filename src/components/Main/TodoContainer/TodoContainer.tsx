@@ -24,14 +24,14 @@ const TodoContainer = ({ isActive }: any) => {
   // 삭제하기 버튼을 눌렀을 때
   /** 삭제 확인 창 추가 22.12.18
    */
-  const handleDeleteToDo = (id: any) => {
+  const handleDeleteToDo = (id: string) => {
     if (window.confirm('정말 삭제하시겠습니까?') === true) {
       dispatch(deleteTodo(id));
     }
   };
 
   // 완료, 취소 버튼 눌렀을 때
-  const handleSwitchState = (id: any) => {
+  const handleSwitchState = (id: string) => {
     dispatch(switchTodo(id));
   };
 

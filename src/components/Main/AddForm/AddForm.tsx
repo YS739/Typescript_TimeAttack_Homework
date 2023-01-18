@@ -1,14 +1,14 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '../../../redux/modules/action/todoAction';
 import { v4 as uuidv4 } from 'uuid';
 import CustomButton from '../../CustomButton';
 import { AddTodoBox, InputBox, Input } from './style';
-import { todosProsType } from '../../../redux/modules/action/todoAction';
+import { TodosProsType } from '../../../interfaces/interface';
 
-const AddForm = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+const AddForm: FC = () => {
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
 
   const dispatch = useDispatch();
 
@@ -23,12 +23,13 @@ const AddForm = () => {
   };
 
   // 추가하기 버튼을 누르면 새로운 ToDo가 추가
+  // TODO: event: any가 아님......
   const onAddToDoHandler = (event: any): void => {
     // 제목과 내용이 모두 입력되었을 때
     if (title && content) {
       event.preventDefault();
-      const newToDoS: todosProsType = {
-        id: uuidv4,
+      const newToDoS: TodosProsType = {
+        id: uuidv4(),
         title: title,
         content: content,
         isDone: false,

@@ -1,15 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ADD_TODO, DELETE_TODO, SWITCH_TODO } from './action/type';
 import { addTodo, deleteTodo, switchTodo } from './action/todoAction';
-
-export interface TodoStateType {
-  todo: {
-    id: any;
-    title: string;
-    content: string;
-    isDone: boolean;
-  }[];
-}
+import { TodoStateType } from '../../interfaces/interface';
 
 // Initial State
 const initialState = {
