@@ -1,8 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteTodo,
-  switchTodo,
-} from '../../../redux/modules/action/todoAction';
+import { useDispatch } from 'react-redux';
+import { deleteTodo, switchTodo } from '../../../redux/modules/TodoReducer';
 import { Link } from 'react-router-dom';
 import CustomButton from '../../CustomButton';
 import {
@@ -13,13 +10,13 @@ import {
   ButtonS,
   DetailLink,
 } from './style';
-import { RootState } from '../../../redux/config/configStore';
+import { useAppSelector } from '../../../hook';
 
 const TodoContainer = ({ isActive }: any) => {
   const dispatch = useDispatch();
 
   // TodoList 값 가져오기
-  const globalTodo = useSelector((state: RootState) => state.TodoReducer.todo);
+  const globalTodo = useAppSelector((state) => state.TodoReducer.todos);
 
   // 삭제하기 버튼을 눌렀을 때
   /** 삭제 확인 창 추가 22.12.18

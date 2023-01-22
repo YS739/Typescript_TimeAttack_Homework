@@ -1,10 +1,9 @@
 import { ChangeEvent, FC, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo } from '../../../redux/modules/action/todoAction';
+import { addTodo } from '../../../redux/modules/TodoReducer';
 import { v4 as uuidv4 } from 'uuid';
 import CustomButton from '../../CustomButton';
 import { AddTodoBox, InputBox, Input } from './style';
-import { TodosProsType } from '../../../interfaces/interface';
 
 const AddForm: FC = () => {
   const [title, setTitle] = useState<string>('');
@@ -31,7 +30,7 @@ const AddForm: FC = () => {
     // 제목과 내용이 모두 입력되었을 때
     if (title && content) {
       event.preventDefault();
-      const newToDoS: TodosProsType = {
+      const newToDoS: TodoItem = {
         id: uuidv4(),
         title: title,
         content: content,

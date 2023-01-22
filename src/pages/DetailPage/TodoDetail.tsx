@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/config/configStore';
 
 const TodoDetail = () => {
-  const global = useSelector((state: RootState) => state.TodoReducer.todo);
+  const global = useSelector((state: RootState) => state.TodoReducer.todos);
 
   const param = useParams();
   const theTodo = global.find((list) => list.id === param.id);

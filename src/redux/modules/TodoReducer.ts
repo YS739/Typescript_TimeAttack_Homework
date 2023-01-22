@@ -1,11 +1,40 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ADD_TODO, DELETE_TODO, SWITCH_TODO } from './action/type';
-import { addTodo, deleteTodo, switchTodo } from './action/todoAction';
-import { TodoStateType } from '../../interfaces/interface';
+
+// Action Types
+enum ActionTypes {
+  ADD_TODO = 'ADD_TODO',
+  DELETE_TODO = 'DELETE_TODO',
+  SWITCH_TODO = 'SWITCH_TODO',
+}
+
+// Action Creator
+// todo 추가하기
+export const addTodo = (todo: TodoItem) => {
+  return {
+    type: ActionTypes.ADD_TODO,
+    payload: todo,
+  };
+};
+
+// todo 삭제하기
+export const deleteTodo = (todo: string) => {
+  return {
+    type: ActionTypes.DELETE_TODO,
+    payload: todo,
+  };
+};
+
+// todo 상태 변경하기
+export const switchTodo = (todo: string) => {
+  return {
+    type: ActionTypes.SWITCH_TODO,
+    payload: todo,
+  };
+};
 
 // Initial State
-const initialState = {
-  todo: [
+const initialState: TodoReducerState = {
+  todos: [
     {
       id: uuidv4(),
       title: 'React',
@@ -21,35 +50,35 @@ const initialState = {
   ],
 };
 
-// Reducer 인자 중 action의 type 정의
-type TodoActionType =
+// TodoAction
+type TodoAction =
   | ReturnType<typeof addTodo>
-  | ReturnType<typeof switchTodo>
-  | ReturnType<typeof deleteTodo>;
+  | ReturnType<typeof deleteTodo>
+  | ReturnType<typeof switchTodo>;
 
 // Reducer
 const TodoReducer = (
-  state: TodoStateType = initialState,
-  action: TodoActionType,
-) => {
+  state = initialState,
+  action: TodoAction,
+): TodoReducerState => {
   switch (action.type) {
     // 추가하기
-    case ADD_TODO:
+    case ActionTypes.ADD_TODO:
       return {
         ...state,
-        todo: [...state.todo, action.payload],
+        todos: [...state.todos, action.payload as TodoItem],
       };
 
     // 삭제하기
-    case DELETE_TODO:
-      const newTodo = state.todo.filter((del) => del.id !== action.payload);
+    case ActionTypes.DELETE_TODO:
+      const newTodo = state.todos.filter((del) => del.id !== action.payload);
       return {
-        todo: newTodo,
+        todos: newTodo,
       };
 
     // 상태 변경(완료, 취소)
-    case SWITCH_TODO:
-      const switchId = state.todo.map((todo) => {
+    case ActionTypes.SWITCH_TODO:
+      const switchId = state.todos.map((todo) => {
         if (todo.id === action.payload) {
           return {
             ...todo,
@@ -61,7 +90,7 @@ const TodoReducer = (
         };
       });
       return {
-        todo: switchId,
+        todos: switchId,
       };
     default:
       return state;
